@@ -1,0 +1,84 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+/* Portfolio colour palette */
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background: #101722;
+  color: #d5deea;
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.7;
+}
+
+#header_wrap {
+  background: #101722;
+  border-bottom: 1px solid #26364a;
+}
+
+#main_content_wrap {
+  background: #101722;
+  border: none;
+}
+
+#main_content {
+  background: #101722;
+  color: #d5deea;
+}
+
+h1, h2, h3, h4 {
+  color: #e6edf7;
+}
+
+h1, h2 {
+  border-bottom-color: #26364a;
+}
+
+a {
+  color: #55b9e9;
+}
+
+a:hover {
+  color: #8bd5ff;
+}
+
+code, pre {
+  background: #1b2736;
+  color: #9bd7f5;
+  border: 1px solid #304257;
+  border-radius: 5px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  background: #1b2b40;
+  color: #8bd5ff;
+}
+
+td, th {
+  border: 1px solid #304257;
+  padding: 10px;
+}
+
+tr:nth-child(even) {
+  background: #172230;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #304257;
+  margin: 30px 0;
+}
+
+blockquote {
+  border-left: 3px solid #55b9e9;
+  color: #aebed0;
+}
