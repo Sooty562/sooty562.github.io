@@ -22,6 +22,7 @@ This incident demonstrates a complete kill chain from initial access through exf
 - The page staged a malicious PowerShell command on her machine and told her to press Win+R, paste, and Enter (ClickFix).
 - PowerShell fetched the downloader and dropped l6E.exe from promptcraft.online; mshta.exe then ran it, and regasm.exe loaded an unsigned library out of the user's Temp folder into the .NET runtime.
 - cleanuploader.exe read Chrome's Login Data (saved credentials) and exfiltrated it to the external address identified, disguised with a spoofed graph.microsoft.com TLS SNI.
+
 ---
 ## Initial Information
 
