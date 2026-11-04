@@ -1,0 +1,12 @@
+title: "Cybersecurity Lab Portfolio"
+
+description: "Practical cybersecurity investigations, SOC analysis and incident response."
+
+theme: jekyll-theme-midnight
+
+markdown: kramdown
+
+show_downloads: false
+
+plugins:
+  - jekyll-relative-links
