@@ -54,6 +54,7 @@ None taken at time
 
 **Note**:
  - Timestamp anomaly - The DNS query for `login.microsoftonline.in.net` is logged at 8:31:07, before the email is read at 8:31:55. This is likely a cause of log ingestion.
+
 ### Attack Chain Summary
 
 **Phase 1 — Delivery**
