@@ -18,7 +18,7 @@ incident response and threat detection.
 
 [ClickFix - A Supply-Chain Compromise Scenario](socsimulator/01-clickfix.md)
 
-[The Lookalike Login – AITM Credential Harvesting Scenario](socsimulator/02-the-lookalike-login)
+[The Lookalike Login – AITM Credential Harvesting Scenario](socsimulator/07-the-lookalike-login)
 
 ## CyberDefenders
 
