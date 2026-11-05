@@ -14,7 +14,8 @@ SOC exercises and blue-team training.
 Security operations investigations, alert analysis,
 incident response and threat detection.
 
-[01 – ClickFix Supply-Chain Compromise](socsimulator/01-clickfix.md)
+[ClickFix Supply-Chain Compromise](socsimulator/01-clickfix.md)
+[The Lookalike Login – An AITM Credential Harvesting Scenario](socsimulator/02-the-lookalike-login)
 
 ## CyberDefenders
 
