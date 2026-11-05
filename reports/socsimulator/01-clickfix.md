@@ -3,7 +3,9 @@ layout: default
 title: ClickFix Supply-Chain Compromise
 ---
 
-## Executive Summary
+## Incident Overview
+
+### Executive Summary
 
 **Incident:** ClickFix Supply-Chain Compromise  
 **Affected Host:** 10.0.1.135 (User: anita.garcia)  
@@ -16,17 +18,7 @@ Within minutes, the attacker achieved execution via LOLBin abuse (`regasm.exe` l
 
 This incident demonstrates a complete kill chain from initial access through exfiltration. No evidence of lateral movement or additional host compromise was identified in the provided telemetry, though the credential theft necessitates assumption of breach for the affected user account. Immediate containment and credential rotation are required.
 
-**Attack Chain Summary**
-
-- Anita Garcia visited eemmbryequo.shop (45.147.230.19), which displayed a fake CAPTCHA page.
-- The page staged a malicious PowerShell command on her machine and told her to press Win+R, paste, and Enter (ClickFix).
-- PowerShell fetched the downloader and dropped l6E.exe from promptcraft.online; mshta.exe then ran it, and regasm.exe loaded an unsigned library out of the user's Temp folder into the .NET runtime.
-- cleanuploader.exe read Chrome's Login Data (saved credentials) and exfiltrated it to the external address identified, disguised with a spoofed graph.microsoft.com TLS SNI.
-
----
-## Initial Information
-
-### What We Know So Far
+### Initial Information
 
 - Date - 3/5/25
 - Affected user: anita.garcia (workstation corp-wks-102, IP 10.0.1.135)
@@ -35,14 +27,26 @@ This incident demonstrates a complete kill chain from initial access through exf
 - A PowerShell command was executed, downloading a payload from promptcraft.online
 - Multiple suspicious processes have been detected by our XDR agent
 
+___
+
+## Investigation 
+
+### Workflow / Steps
+
+None taken at time.
+
+### Tools Used
+
+- Online SIEM
+
 ---
-## Timeline
+## Findings
+### Timeline
 
 Table 1 - **Host:** `corp-wks-102` | **IP Address**: `10.0.1.135`
 
 | **Time (UTC)**  | **Event**                                                                                                                                                                                    | **Source**           |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-|                 |                                                                                                                                                                                              |                      |
 | 3/5/25 11:05:40 | Navigation: msedge.exe -> `https://eemmbryequo[.]shop/` (page presented a 'Verify You Are Human' check)                                                                                      | XDR Browser Monitor  |
 | 11:05:40        | Network connection: msedge.exe -> `45.147.230[.]19:443` (`eemmbryequo[.]shop`)                                                                                                               | Windows Sysmon       |
 | 11:05:44        | Script from eemmbryequo.shop called navigator.clipboard.writeText and placed 174 bytes into the Windows clipboard; no user copy action preceded it                                           | XDR Browser Monitor  |
@@ -58,13 +62,18 @@ Table 1 - **Host:** `corp-wks-102` | **IP Address**: `10.0.1.135`
 | 5/5/25 10:29:05 | Network connection: cleanuploader.exe -> `185.147.124[.]40:443` (graph.microsoft.com)                                                                                                        | Windows Sysmon       |
 | 10:30:00        | `ALLOW \| 10.0.1.135:50788 -> 185.147.124[.]40:443 \| app=ssl \| sni=graph.microsoft.com`                                                                                                    | Palo Alto FW Log     |
 
+### Attack Chain Summary
 
+- Anita Garcia visited eemmbryequo.shop (45.147.230.19), which displayed a fake CAPTCHA page.
+- The page staged a malicious PowerShell command on her machine and told her to press Win+R, paste, and Enter (ClickFix).
+- PowerShell fetched the downloader and dropped l6E.exe from promptcraft.online; mshta.exe then ran it, and regasm.exe loaded an unsigned library out of the user's Temp folder into the .NET runtime.
+- cleanuploader.exe read Chrome's Login Data (saved credentials) and exfiltrated it to the external address identified, disguised with a spoofed graph.microsoft.com TLS SNI.
 
-## Technical Analysis
+---
 
-This ClickFix attack chained browser-to-shell execution with LOLBin abuse. A malicious webpage poisoned the clipboard via `navigator.clipboard.writeText`, then the user pasted into Run dialog, spawning `powershell.exe` from `explorer.exe`. PowerShell downloaded `l6E.exe` from `promptcraft.online` (`185.91.69.119`), which loaded a masqueraded DLL (`Microsoft.Runtime.dll`) via `regasm.exe` to execute `cleanuploader.exe`. The stealer persisted via HKCU Run key (`ChromeUpdater`), accessed Chrome's `Login Data`, and exfiltrated via HTTPS to `185.147.124.40` using spoofed SNI `graph.microsoft.com`. Total dwell time: ~47 hours. Credential theft confirmed; account compromise assumed.
+## Response
 
-## Response Actions
+### Recommended Actions / Containment Response
 
 1. Isolated `corp-wks-102` from the network
 2. Killed processes running related
@@ -74,7 +83,11 @@ This ClickFix attack chained browser-to-shell execution with LOLBin abuse. A mal
 6. Kill any sessions for user
 7. Reset/rotate all credentials/certificates for user.
 
-## MITRE ATT&CK Mapping
+
+---
+## Detection & Threat Intelligence
+
+### MITRE ATT&CK Mapping
 
 | **MITRE ATT&CK ID** | **Technique Name**                                               | **Related Event**                                                                                                                                                                                                                                                     |
 | ------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -91,125 +104,31 @@ This ClickFix attack chained browser-to-shell execution with LOLBin abuse. A mal
 | T1071.001           | Application Layer Protocol: Web Protocols                        | 5/5 10:29:05 — `cleanuploader.exe` makes outbound HTTPS connections to 185.147.124.40 with `sni=graph.microsoft.com`                                                                                                                                                  |
 | T1041               | Exfiltration Over C2 Channel _(probable)_                        | 5/5 10:29:05 — Post-theft SSL session to `graph.microsoft.com` from the credential stealer; if it's using stolen tokens/cookies against Graph API for exfil or mail access, also consider T1550.001 (Use Alternate Authentication Material: Application Access Token) |
 
+---
+## Lessons Learned
 
-## Indicators of Compromise
+On Windows, the Run dialog runs as a child process of `explorer.exe`. Any interpreter launched from it therefore inherits `explorer.exe` as its parent process. So the core signal is:
 
-### Domains & URLs
+`explorer.exe → powershell.exe / cmd.exe / mshta.exe / wscript.exe`
 
-|IOC|Type|Context|
-|---|---|---|
-|`eemmbryequo.shop`|Domain|Initial lure/CAPTCHA page|
-|`promptcraft.online`|Domain|Payload download server|
-|`promptcraft.online/l6E.exe`|URL|Primary malicious executable|
-|`graph.microsoft.com`|Spoofed SNI|C2 channel (IP does not belong to Microsoft)|
+I need to remember that an `explorer.exe` parent spawning a shell is the single highest-value ClickFix detection identifier. In this incident, `powershell.exe` appeared with `parent explorer.exe, launched from the Run dialog` at 11:06:12.
 
-### IP Addresses
+| Variant      | Paste location                                 | Parent process                                            |
+| ------------ | ---------------------------------------------- | --------------------------------------------------------- |
+| **ClickFix** | Windows Run dialog                             | `explorer.exe` → `powershell.exe`, `mshta.exe`, `cmd.exe` |
+| **FileFix**  | File Explorer address bar (HTML upload prompt) | Browser process → `powershell.exe` / `cmd.exe`            |
 
-|IOC|Type|Context|
-|---|---|---|
-|`45.147.230.19`|IPv4|eemmbryequo.shop resolver|
-|`185.91.69.119`|IPv4|promptcraft.online payload server|
-|`185.147.124.40`|IPv4|C2/exfiltration endpoint (spoofed Microsoft SNI)|
+---
+## Appendix
 
-### File Artifacts
-
-| IOC                     | Path                                                                             | Hash    | Context                       |
-| ----------------------- | -------------------------------------------------------------------------------- | ------- | ----------------------------- |
-| `l6E.exe`               | `C:\Users\anita.garcia\Downloads\l6E.exe`                                        | Unknown | Stage 1 executable (unsigned) |
-| `Microsoft.Runtime.dll` | `C:\Users\anita.garcia\AppData\Local\Temp\Microsoft.Runtime.dll`                 | Unknown | Masqueraded DLL (unsigned)    |
-| `cleanuploader.exe`     | `C:\Users\anita.garcia\AppData\Local\Temp\cleanuploader.exe`                     | Unknown | Credential stealer (unsigned) |
-| `Login Data`            | `C:\Users\anita.garcia\AppData\Local\Google\Chrome\User Data\Default\Login Data` | N/A     | Accessed credential database  |
-
-### Registry Artifacts
-
-|IOC|Key|Value|Context|
-|---|---|---|---|
-|Persistence|`HKCU\Software\Microsoft\Windows\CurrentVersion\Run`|`ChromeUpdater = C:\Users\anita.garcia\AppData\Local\Temp\cleanuploader.exe`|Autostart mechanism|
-
-### Process Indicators
-
-|IOC|Parent Process|Context|
-|---|---|---|
-|`powershell.exe`|`explorer.exe` (via Run dialog)|Malicious command execution|
-|`regasm.exe`|N/A|LOLBin proxy execution|
-|`cleanuploader.exe`|`regasm.exe`|Dropper/stealer process|
-
-### Network Indicators
-
-|IOC|Port|Protocol|Context|
-|---|---|---|---|
-|Any outbound to the above IPs|443|HTTPS/TLS|All C2 and payload traffic|
-
-### Behavioural Indicators
-
-|IOC|Description|
-|---|---|
-|Clipboard write without user action|`navigator.clipboard.writeText` from web page (T1115 variant)|
-|Unsigned executables in Temp/Downloads|Multiple files marked unsigned in telemetry|
-|SNI mismatch|Connection to 185.147.124.40 advertising `graph.microsoft.com`|
-|Legitimate binary proxy execution|`regasm.exe` loading unsigned third-party DLL|
-
-
-## Recommendations
-
-
-Rules:
-```yaml
-title: Browser Process Spawning Command Interpreter
-status: experimental
-logsource:
-  category: process_creation
-  product: windows
-detection:
-  selection_parent:
-    ParentImage|endswith:
-      - '\msedge.exe'
-      - '\chrome.exe'
-      - '\firefox.exe'
-      - '\brave.exe'
-  selection_child:
-    Image|endswith:
-      - '\powershell.exe'
-      - '\pwsh.exe'
-      - '\cmd.exe'
-      - '\mshta.exe'
-      - '\wscript.exe'
-      - '\cscript.exe'
-      - '\curl.exe'
-      - '\bitsadmin.exe'
-  condition: selection_parent and selection_child
-level: high
-falsepositives:
-  - Enterprise browser extensions or management agents with unusual architecture
-  - Some legacy line-of-business web apps launching helper utilities
-```
-
-## Open Questions
+### Open Questions
 
 - There is a significant time delay between the initial infection and the upload of credentials. It has yet to be confirmed that no lateral movement was performed.
 - Assumed notification of relevant regulatory bodies was performed.
 
-## Containment
+
+### Images / Files
+
+Nil for this investigation
 
 
-**Immediate (first 60 minutes)**
-
-1. **Network-isolate 10.0.1.135.** Do not power it off — volatile evidence (running `cleanuploader.exe`, clipboard contents, process handles on Chrome's `Login Data`) lives in memory. Isolate at the EDR/switch level so you retain forensic access.
-2. **Block the infrastructure at the perimeter.** Add `eemmbryequo.shop`, `promptcraft.online`, `45.147.230.19`, `185.91.69.119`, and `185.147.124.40` to DNS sinkhole, proxy deny-list, and firewall egress rules. Note that `185.147.124.40` should be blocked **by IP**, not by SNI — the `graph.microsoft.com` SNI is spoofed and any SNI-based rule will miss it.
-3. **Treat the user's credentials as compromised.** Assume every secret in Chrome's `Login Data` store — passwords, cookies, session tokens — is in adversary hands. Force a password reset for `anita.garcia` from a _different, known-clean_ device, then revoke all active sessions and refresh tokens.
-4. **Review Entra ID / Microsoft 365 sign-in logs** for the account, filtered to the 4–5 May window and looking specifically for anomalous source IPs, impossible-travel, new MFA method registrations, new inbox rules, and OAuth application consents. Given the Graph-oriented C2, token replay against Microsoft 365 is the highest-value follow-on scenario.
-5. **Check whether the account had privileged or SSO-broad access.** If yes, escalate to a broader identity incident and notify the identity team immediately.
-
-**Short-term (24 hours)**
-
-6. **Hunt for the same IOCs estate-wide** — proxy/DNS logs for the two domains and three IPs, EDR telemetry for the three filenames, and the registry value name `ChromeUpdater`. ClickFix campaigns are typically delivered to many users simultaneously; the first report is rarely the only victim.
-7. **Preserve evidence before remediation** — memory image, `$MFT`/USN journal, Sysmon and PowerShell operational logs, browser history and download records, and the quarantine copies of all three binaries. Get hashes computed on the recovered samples and add them to the IOC table (they're currently marked unknown).
-8. **Notify affected parties** per your regulatory and contractual obligations if the credential store contained business or customer accounts.
-9. **Interview the user** briefly: confirm whether they recall pasting into the Run dialog, and check whether they reused the exposed passwords elsewhere.
-
-**Recovery**
-
-10. **Rebuild rather than clean.** With a credential stealer, a persistent Run key, and a masqueraded DLL having executed, a wipe-and-reimage is faster and more defensible than surgical removal. Reimage, patch, then re-enrol in EDR before returning to the network.
-11. **Re-authenticate everything** on the rebuilt host: MFA re-registration, new device certificates, and fresh tokens only.
-
-## Appendix
