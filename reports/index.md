@@ -8,6 +8,7 @@ permalink: /reports/
 
 A collection of practical cybersecurity investigations,
 SOC exercises and blue-team training.
+
 ---
 
 ## SOC Simulator
