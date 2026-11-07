@@ -20,14 +20,13 @@ incident response and threat detection.
 
 [The Lookalike Login – AITM Credential Harvesting Scenario](socsimulator/07-the-lookalike-login)
 
-
 [QR Code Phishing Scenario](socsimulator/08-qr-code-phishing)
 
 ## CyberDefenders
 
 Digital forensics, threat hunting and blue-team challenges.
 
-*Reports coming soon.*
+[Insiders](cyberdefenders/01-insiders)
 
 ## TryHackMe
 
