@@ -28,6 +28,8 @@ Digital forensics, threat hunting and blue-team challenges.
 
 [Insiders](cyberdefenders/01-insiders)
 
+[Web Hunt Investigation](cyberdefenders/02-web-hunt-investigation)
+
 ## TryHackMe
 
 Hands-on security exercises and technical investigations.
