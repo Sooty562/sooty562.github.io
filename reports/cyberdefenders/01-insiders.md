@@ -56,15 +56,6 @@ Use of:
 | 7 | auth.log | shows Karenhacker obtaining su for user ‘postgres’ | 19/3/22 1126hrs |
 
 
-| ID  | Evidence Type           | Significance                                                                      | Date/Time of File          |
-| ---- | ----------------------- | --------------------------------------------------------------------------------- | -------------------------- |
-|  1  | Distro - Kali           | Shows means. Tool commonly used by hackers. OS                                    | n/a                        |
-|  2  | Karen's Checklist       | Shows motive                                                                      | 19/3/22 0418hrs            |
-|  3  | Bash History            | Shows commands used                                                               | n/a                        |
-|  4  | Mimikatz download       | Tool used to extract data                                                         | 19/3/22 0304hrs            |
-|  5  | myfirsthack folder      | Number of scripts within the folder showing progressively better scripting skills | 19/3/22 0400hrs to 0414hrs |
-|  6  | metasploit history file | shows commands used within metasploit framework.                                  | 19/3/22 0535hrs            |
-|  7  | auth.log                | shows Karenhacker obtaining su for user 'postgres'                                | 19/3/22 1126hrs            |
 ___
 # Challenge Answers
 
