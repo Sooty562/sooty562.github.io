@@ -47,7 +47,7 @@ Use of:
 
 
 | ID  | Evidence Type           | Significance                                                                      | Date/Time of File          |
-| :-: | ----------------------- | --------------------------------------------------------------------------------- | -------------------------- |
+| --- | ----------------------- | --------------------------------------------------------------------------------- | -------------------------- |
 |  1  | Distro - Kali           | Shows means. Tool commonly used by hackers. OS                                    | n/a                        |
 |  2  | Karen's Checklist       | Shows motive                                                                      | 19/3/22 0418hrs            |
 |  3  | Bash History            | Shows commands used                                                               | n/a                        |
