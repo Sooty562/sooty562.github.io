@@ -40,15 +40,14 @@ Large amount of GET requests from a single IP. User-agent of gobuster. IP addres
 # Evidence Collected
 Note - should have the ID No. from Wireshark here to help identify specific packet/evidence.
 
-| ID  | Evidence Type                      | Value  | Significance                                                                |
-| --- | --- | --- | --- |
-| 1.  | 111.224.250.131                    | High   | IP Address of attacker                                                      |
-| 2.  | SQLi attempts                      | Medium | Number of attempts by the attacker                                          |
-| 3.  | HTTP Response with email addresses | High   | Attacker managed to enumerate customer data in the SQL database 'customers' |
-| 4.  | GoBuster enumeration               | Medium | attacker's enumeration of the folders/files to identify what exists         |
-| 5.  | Login                              | High   | Login to the admin account with admin password from the attacking IP        |
-| 6.  | PHP Upload                         | High   | PHP script uploaded by attacker.                                            |
-___
+| ID | Evidence Type | Value | Significance |
+|---|---|---|---|
+| 1 | 111.224.250.131 | High | IP Address of attacker |
+| 2 | SQLi attempts | Medium | Number of attempts by the attacker |
+| 3 | HTTP Response with email addresses | High | Attacker managed to enumerate customer data in the SQL database ‘customers’ |
+| 4 | GoBuster enumeration | Medium | Attacker’s enumeration of the folders/files to identify what exists |
+| 5 | Login | High | Login to the admin account with admin password from the attacking IP |
+| 6 | PHP Upload | High | PHP script uploaded by attacker |
 
 ---
 # Challenge Answers
