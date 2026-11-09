@@ -2,6 +2,7 @@
 
 ---
 
+[← Home](/)
 
 ## Incident Overview
 
