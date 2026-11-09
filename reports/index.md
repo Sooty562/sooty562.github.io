@@ -32,6 +32,8 @@ Digital forensics, threat hunting and blue-team challenges.
 
 [Web Hunt Investigation](cyberdefenders/02-web-hunt-investigation)
 
+[PsExec Hunt](cyberdefenders/03-psexec)
+
 ## TryHackMe
 
 Hands-on security exercises and technical investigations.
