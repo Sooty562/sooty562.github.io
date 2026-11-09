@@ -2,9 +2,11 @@
 
 ---
 
+<p><a href="/">← Back to Home</a></p>
+
 # Virtual Homelab
 
-Welcome to my virtual homelab environment. This lab consists of three virtual machines connected through a NAT Network, providing an isolated environment for cybersecurity experimentation, network monitoring and digital forensic investigations.
+Welcome to one of my virtual homelab environments. This lab consists of three virtual machines connected through a NAT Network, providing an isolated environment for cybersecurity experimentation, network monitoring and digital forensic investigations. This particular lab exists to test and view the results of attacks on the Ubuntu VM made by Kali. The alerts that occur on the Wazuh Server machine and reviewed to see how a particular attack (such as port scanning) is seen from a defenders point of view. How it appears in the logs. 
 
 ## Network Topology
 
