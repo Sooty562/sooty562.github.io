@@ -22,6 +22,8 @@ incident response and threat detection.
 
 [QR Code Phishing Scenario](socsimulator/08-qr-code-phishing)
 
+[Finance Mailbox Takeover](socsimulator/10-finance-mailbox-takeover.md)
+
 ## CyberDefenders
 
 Digital forensics, threat hunting and blue-team challenges.
