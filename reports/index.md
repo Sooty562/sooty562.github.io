@@ -36,7 +36,7 @@ Digital forensics, threat hunting and blue-team challenges.
 
 Hands-on security exercises and technical investigations.
 
-*Reports coming soon.*
+[*Link to Profile*](https://tryhackme.com/p/Soots)
 
 ---
 
