@@ -26,17 +26,20 @@ Replayed the stolen session from another IP, registered their own MFA method for
 - Implement phishing-resistant MFA (passkeys/FIDO2 or Conditional Access with compliant-device requirements)
 - Enforce token binding / continuous access evaluation so stolen session cookies die quickly
 - Block script-bearing  attachments at the mail gateway.
+
 ### Initial Information
 
 Date - 20/4/25
 A finance analyst at MegaCorp Logistics reported that colleagues were receiving replies to messages she never sent, and her account was disabled while the investigation runs. You have the SIEM feed and the endpoint XDR telemetry for the workstation estate and the mail platform, covering the week around the report. Reconstruct what happened: which host produced the endpoint evidence, what its browser reached, how the account was taken over, and what was left behind on the mail platform so the containment plan is complete.
 
 ___
+
 ## Investigation 
 
 ### Workflow / Steps
-| **Time**            | **Action**                                                                                                                                                                                                                           |
-| --- | --- |
+
+| **Time** | **Action** |
+|---|---|
 | 8/11/26 <br>1113hrs | Review of SIEM data. Data contains network, xdr, defender, DNS information.   Attempting to identify malicious actions. Identified affected host - `corps-wks-082`. Observed a suspicious created file at 10:19:40 - `phantomjs.exe` |
 | 1126hrs             | Pivoted to review all actions on this host within SIEM data. Identified invoice.svg downloaded at 9:05 and following executable of phantomjs.exe 10:19.                                                                              |
 | 1133hrs             | Reviewed XDR information and observed invoice.svg activated at 10:15 which then used browser to navigate to external website.                                                                                                        |
