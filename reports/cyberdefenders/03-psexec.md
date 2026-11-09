@@ -2,8 +2,10 @@
 
 ---
 
+[← Home](/)
 
 **Date Completed:** 9/10/2026
+
 ## Case Overview
 
 **Summary**
