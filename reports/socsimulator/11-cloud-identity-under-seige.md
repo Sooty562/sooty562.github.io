@@ -67,20 +67,19 @@ Nine days of telemetry from a cloud-first Azure estate: Entra ID sign-ins, Windo
 
 ### Workflow / Steps
 
-| **Time**             | **Action**                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| **Time** | **Action** |
 | --- | --- |
-| 10/11/26 <br>1500hrs | Review of SIEM and XDR data. Review of process tree of infected endpoint `corp-wks-8821`.<br>                                                                                                                                                                                                                                                                                                                                                                |
-| 1603hrs              | Review of Cloud logs including AzureAD and Exchange. Identified new mailbox rules and out-of-hours log ins that were successful. Identified use of python and admin.breakgl                                                                                                                                                                                                                                                                                  |
-| 15/11/26 1300hrs     | Review of SIEM data to identify process and executable behind                                                                                                                                                                                                                                                                                                                                                                                                |
-| 1330hrs              | Review of telemetry shows user `Marcus.Aurelius` (M.A) regularly logging and being present between 0630hrs and 1800hrs. 1 script routinely performed and regularly obtaining weather information. <br>On 7/10/25 - M.A logged off at 1217hrs and logged back on again at 1312hrs. Between this time explorer.exe created a kubectl.exe process - a Kubernetes CommandLine tool. The following morning at 0134hrs, user logged on in uncharacteristic manner. |                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-Not good ones this time
+| 10/11/26 1500hrs | Review of SIEM and XDR data. Review of process tree of infected endpoint `corp-wks-8821`. |
+| 1603hrs              | Review of Cloud logs including AzureAD and Exchange. Identified new mailbox rules and out-of-hours log ins that were successful. Identified use of python and admin.breakglass |
+| 15/11/26 1300hrs     | Review of SIEM data to identify process and executable behind |
+| 1330hrs              | Review of telemetry shows user `Marcus.Aurelius` (M.A) regularly logging and being present between 0630hrs and 1800hrs. 1 script routinely performed and regularly obtaining weather information. <br>On 7/10/25 - M.A logged off at 1217hrs and logged back on again at 1312hrs. Between this time explorer.exe created a kubectl.exe process - a Kubernetes CommandLine tool. The following morning at 0134hrs, user logged on in uncharacteristic manner. |
+
 ### Tools Used
 - SIEM
 	- Firewall logs
 	- Network logs
 	- EDR logs
 	- Azure / Cloud logs
-
 
 ---
 
