@@ -36,6 +36,8 @@ Digital forensics, threat hunting and blue-team challenges.
 
 [PsExec Hunt](cyberdefenders/03-psexec)
 
+[Tomcat Takeover](cyberdefenders/04-tomcat-takeover)
+
 ## TryHackMe
 
 Hands-on security exercises and technical investigations.
