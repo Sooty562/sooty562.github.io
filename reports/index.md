@@ -24,6 +24,8 @@ incident response and threat detection.
 
 [Finance Mailbox Takeover](socsimulator/10-finance-mailbox-takeover.md)
 
+[Cloud Identity Under Seige](socsimulator/11-cloud-identity-under-seige.md)
+
 ## CyberDefenders
 
 Digital forensics, threat hunting and blue-team challenges.
